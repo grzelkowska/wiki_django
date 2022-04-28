@@ -1,3 +1,4 @@
+import random
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -100,6 +101,14 @@ def edit(request, title):
 
     return HttpResponseRedirect(reverse('index'))
 
-    
+
+def randompage(request):
+    random_list = util.list_entries()
+    title = random.choice(random_list)
+    content = util.get_entry(title)
+    return render(request, "encyclopedia/title.html", {
+        "title": title,
+        "entry": content
+    })
     
 
