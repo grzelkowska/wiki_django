@@ -3,7 +3,11 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
+from markdown2 import Markdown
+
 from . import util
+
+markdowner = Markdown()
 
 
 def index(request):
@@ -42,7 +46,7 @@ def search(request):
         if len(results) == 1 and results[0].lower() == possibles[0].lower():
             return render(request, "encyclopedia/title.html", {
                 "title": possibles[0],
-                "entry": util.get_entry(possibles[0])
+                "entry": markdowner.convert(util.get_entry(possibles[0]))
             })
         return render(request, "encyclopedia/index.html", {
             "entries": possibles,
@@ -65,7 +69,7 @@ def title(request, title_):
 
     return render(request, "encyclopedia/title.html", {
         "title": title_,
-        "entry": util.get_entry(title_)
+        "entry": markdowner.convert(util.get_entry(title_))
     })
 
     
@@ -108,7 +112,7 @@ def randompage(request):
     content = util.get_entry(title)
     return render(request, "encyclopedia/title.html", {
         "title": title,
-        "entry": content
+        "entry": markdowner.convert(content)
     })
     
 
