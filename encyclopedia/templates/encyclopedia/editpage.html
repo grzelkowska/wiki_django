@@ -1,0 +1,27 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block body %}
+    <style>
+        h4 {
+            color: green;
+        }
+    </style>
+    <h3>Edit Page</h3>
+
+    {% if message %}
+    <h4>{{message}}</h4>
+    {% endif %}
+
+    <form method="post" action="{% url 'edit' title %}">
+        {% csrf_token %}
+        <br>
+        <h5>{{title}}</h5>
+        <br>
+        <textarea name="content" required>{{ content }}</textarea>
+        <br>
+        <input type="submit" value="save">
+    </form>
+    
+
+
+{% endblock %}
